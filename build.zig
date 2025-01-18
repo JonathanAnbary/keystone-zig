@@ -35,19 +35,19 @@ pub fn build(b: *std.Build) !void {
 
     const cmake_step = b.addSystemCommand(&.{
         if (builtin.os.tag == .linux)
-            "../make-lib.sh"
+            "../make-share.sh"
         else if (builtin.os.tag == .windows)
             "..\\nmake-lib.bat"
         else
             @compileError("Base system not supported."),
-        "lib_only",
+        "share_only",
     });
     cmake_step.setCwd(upstream.path("build"));
     lib.step.dependOn(&cmake_step.step);
 
     lib.installHeadersDirectory(upstream.path("include/keystone"), "keystone", .{});
 
-    const lib_copy = b.addObjCopy(build_path.path(upstream.builder, "llvm/lib64/libkeystone.a"), .{ .basename = "keystone" });
+    const lib_copy = b.addObjCopy(build_path.path(upstream.builder, "llvm/lib64/libkeystone.so"), .{ .basename = "keystone" });
     lib_copy.step.dependOn(&cmake_step.step);
     translate.step.dependOn(&lib_copy.step);
 

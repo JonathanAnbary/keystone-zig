@@ -47,7 +47,7 @@ pub fn build(b: *std.Build) !void {
 
     lib.installHeadersDirectory(upstream.path("include/keystone"), "keystone", .{});
 
-    const lib_copy = b.addObjCopy(build_path.path(upstream.builder, "llvm/lib64/"), .{ .basename = "keystone" });
+    const lib_copy = b.addObjCopy(build_path.path(upstream.builder, "llvm/lib64/libkeystone.so"), .{ .basename = "keystone" });
     lib_copy.step.dependOn(&cmake_step.step);
     translate.step.dependOn(&lib_copy.step);
 

@@ -40,7 +40,6 @@ pub fn build(b: *std.Build) !void {
             "..\\nmake-lib.bat"
         else
             @compileError("Base system not supported."),
-        "share_only",
     });
     cmake_step.setCwd(upstream.path("build"));
     lib.step.dependOn(&cmake_step.step);
